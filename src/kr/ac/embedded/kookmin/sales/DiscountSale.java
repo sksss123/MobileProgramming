@@ -1,4 +1,5 @@
-package kr.ac.embedded.kookmin.sales;
+//https://github.com/sksss123/javalab4-1.git
+	package kr.ac.embedded.kookmin.sales;
 
 /**
  * Class for a sale of one item with discount expressed as a percent of the
@@ -11,7 +12,8 @@ public class DiscountSale extends Sale {
 	private double	discount;	// A percent of the price. Cannot be negative.
 								
 	public DiscountSale() {
-		/** 구현 하시오 **/ 
+		super();
+		discount = 0;
 	}
 	
 	/**
@@ -19,11 +21,18 @@ public class DiscountSale extends Sale {
 	 * theDiscount is expressed as a percent of the price and is nonnegative.
 	 */
 	public DiscountSale(String theName, double thePrice, double theDiscount) {
-		/** 구현 하시오 **/ 
+		super(theName, thePrice);
+		
+		if (theDiscount >= 0)
+			discount = theDiscount;
+		else {
+			System.out.println("Error: Negative discount.");
+			System.exit(0);
+		}
 	}
 	
 	public DiscountSale(DiscountSale originalObject) {
-		/** 구현 하시오 **/ 
+		this(originalObject.getName(),originalObject.getPrice(),originalObject.getDiscount());
 	}
 	
 	public static void announcement() {
@@ -31,18 +40,23 @@ public class DiscountSale extends Sale {
 	}
 	
 	public double bill() {
-		/** 구현 하시오 **/ 
+		return (getPrice()*(100-discount)/100);
 	}
 	
 	public double getDiscount() {
-		/** 구현 하시오 **/ 
+		return discount;
 	}
 	
 	/**
 	 * Precondition: Discount is nonnegative.
 	 */
 	public void setDiscount(double newDiscount) {
-		/** 구현 하시오 **/ 
+		if (newDiscount >= 0)
+			discount = newDiscount;
+		else {
+			System.out.println("Error: Negative price.");
+			System.exit(0);
+		}
 	}
 	
 	public String toString() {
@@ -50,11 +64,18 @@ public class DiscountSale extends Sale {
 	}
 	
 	public boolean equals(Object otherObject) {
-		/** 구현 하시오 **/ 
+		if (otherObject == null)
+			return false;
+		else if (getClass() != otherObject.getClass())
+			return false;
+		else {
+			DiscountSale otherDiscountSale = (DiscountSale) otherObject;
+			return (this.equals(otherDiscountSale)) && (discount == otherDiscountSale.discount);
+		}
 	}
 	
 	
 	public DiscountSale clone() {
-		/** 구현 하시오....  임시생성자 사용 **/ 
+		return new DiscountSale(this);
 	}
 }
